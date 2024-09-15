@@ -1,61 +1,41 @@
-# Create start screen
+# Class Inheritance in Python
+
+Inheritance is a fundamental concept in object-oriented programming that allows a class to inherit attributes and methods from another class. This promotes code reusability and establishes a relationship between classes.
+
+## Basic Syntax
 
 ```python
-from turtle import Screen, Turtle
+class ParentClass:
+  def __init__(self):
+    self.parent_attribute = "I am a parent"
 
-screen = Screen()
-screen.setup(width=600, height=600, startx=0, starty=0)
-screen.bgcolor("black")
-screen.title("This is snake game")
+  def parent_method(self):
+    return "This is a method from the parent class"
 
-start_points = [(0, 0), (-20, 0), (-40, 0)]
+class ChildClass(ParentClass):
+  def __init__(self):
+    super().__init__()  # Call the constructor of the parent class
+    self.child_attribute = "I am a child"
 
-for point in start_points:
-  new_segment = Turtle(shape="square")
-  new_segment.color("white")
-  new_segment.goto(point)
-
-screen.exitonclick()
+  def child_method(self):
+    return "This is a method from the child class"
 ```
 
-![start_screen](image.png)
-
-# Make snake move
+## Example Usage
 
 ```python
-import time
-from turtle import Screen, Turtle
-
-screen = Screen()
-screen.setup(width=600, height=600, startx=0, starty=0)
-screen.bgcolor("black")
-screen.title("This is snake game")
-
-start_points = [(0, 0), (-20, 0), (-40, 0)]
-segments = []
-screen.tracer(0)
-
-for point in start_points:
-  new_segment = Turtle(shape="square")
-  new_segment.color("white")
-  new_segment.penup()
-  new_segment.goto(point)
-  segments.append(new_segment)
-
-game_is_on = True
-screen.update()
-
-while game_is_on:
-  screen.update()
-  time.sleep(0.1)
-  for seg_num in range(len(segments) - 1, 0, -1):
-    new_x = segments[seg_num - 1].xcor()
-    new_y = segments[seg_num - 1].ycor()
-    segments[seg_num].goto(new_x, new_y)
-
-  segments[0].forward(20)
-
-screen.exitonclick()
+child_instance = ChildClass()
+print(child_instance.parent_attribute)  # Output: I am a parent
+print(child_instance.child_attribute)   # Output: I am a child
+print(child_instance.parent_method())   # Output: This is a method from the parent class
+print(child_instance.child_method())    # Output: This is a method from the child class
 ```
 
-![moving snake](1.gif)
+## Key Points
+- **Single Inheritance**: A class can inherit from one parent class.
+- **Multiple Inheritance**: A class can inherit from multiple parent classes.
+- **Method Overriding**: A child class can provide a specific implementation of a method that is already defined in its parent class.
+
+## Conclusion
+
+Class inheritance is a powerful feature in Python that allows for the creation of a hierarchical class structure, enabling code reuse and better organization.
