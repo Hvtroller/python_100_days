@@ -1,6 +1,7 @@
 from turtle import Turtle, Screen
 from paddle import Paddle
 from pong import Pong
+from scoreboard import Scoreboard
 import time
 
 screen = Screen()
@@ -11,6 +12,7 @@ screen.tracer(0)
 r_paddle = Paddle((350, 0))
 l_paddle = Paddle((-350, 0))
 pong = Pong()
+scoreboard = Scoreboard()
 
 screen.listen()
 screen.onkey(r_paddle.go_up, "Up")
@@ -28,10 +30,17 @@ while game_is_on:
   if pong.ycor() > 280 or pong.ycor() < -280:
     pong.bounce_y()
 
-  if (pong.distance(r_paddle) < 50 and pong.xcor() > 320) or (pong.distance(l_paddle) < 50 and pong.xcor() < -320):
+  if (not pong.just_bounced) and ((pong.distance(r_paddle) < 50 and pong.xcor() > 320) or (pong.distance(l_paddle) < 50 and pong.xcor() < -320)):
+    if pong.xcor() > 0:
+      scoreboard.r_score += 1
+    else:
+      scoreboard.l_score += 1
+
+    scoreboard.update_scoreboard()
     pong.bounce_x()
 
   if pong.xcor() > 380 or pong.xcor() < -380:
-    pong.reset_position()
+    game_is_on = False
+    scoreboard.game_over()
 
 screen.exitonclick()
